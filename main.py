@@ -13,6 +13,7 @@ from pybricks.media.ev3dev import SoundFile, ImageFile
 
 dawdawd
 MiguelStinkt
+AldinStinkt
 dfdf
 
 # Create your objects here.
