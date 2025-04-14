@@ -12,7 +12,10 @@ ev3 = EV3Brick()
 ev3.speaker.beep()
 # Greifer initialisieren
 grap = Graper(motor_port=Port.A, sensor_port=Port.S2)  # Falls andere Ports, anpassen
+driving = DrivingUnit()
 
+
+driving.startMoving()
 # Greifer aktivieren, wenn ein Objekt erkannt wird
 grap.detect_and_grap()
 
