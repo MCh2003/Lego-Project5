@@ -1,25 +1,37 @@
 #!/usr/bin/env pybricks-micropython
 from pybricks.hubs import EV3Brick
-from pybricks.ev3devices import (Motor, TouchSensor, ColorSensor,
-                                 InfraredSensor, UltrasonicSensor, GyroSensor)
-from pybricks.parameters import Port, Stop, Direction, Button, Color
-from pybricks.tools import wait, StopWatch, DataLog
-from pybricks.robotics import DriveBase
-from pybricks.media.ev3dev import SoundFile, ImageFile
+from pybricks.ev3devices import ColorSensor
+from pybricks.parameters import Port, Color
+from pybricks.tools import wait
 
-
-# This program requires LEGO EV3 MicroPython v2.0 or higher.
-# Click "Open user guide" on the EV3 extension tab for more information.
-
-dawdawd
-MiguelStinkt
-dfdf
-
-# Create your objects here.
+# Initialize EV3 brick
 ev3 = EV3Brick()
 
+# Initialize color sensor on port 2
+cs = ColorSensor(Port.S2)
 
-# Write your program here.df
+# Dictionary to map color values
+color_names = {
+    Color.BLACK: "Black",
+    Color.BLUE: "Blue",
+    Color.GREEN: "Green",
+    Color.YELLOW: "Yellow",
+    Color.RED: "Red",
+    Color.WHITE: "White",
+    Color.BROWN: "Brown",
+    None: "No Color"
+}
+
+# Sound the beep to start
 ev3.speaker.beep()
 
+while True:
+    detected_color = cs.color()  # Get the detected color
+    print(detected_color)  # Print the numeric color value
+    wait(1000)  # Wait for 1 second before checking again
+
+
+while cs.reflection() > 15:
+    ev3.speaker.beep()
+    wait(2)
 
