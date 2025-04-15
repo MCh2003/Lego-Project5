@@ -2,7 +2,7 @@
 from pybricks.hubs import EV3Brick
 from pybricks.tools import wait
 from pybricks.parameters import Port
-from drivingUnit import DrivingUnit  # Achtung: Stelle sicher, dass DrivingUnit self.robot verwendet.
+from drivingUnit import DrivingUnit  # DrivingUnit self.robot verwendet.
 from grap import Graper  # Erweiterte Version mit einer release()-Methode
 from pybricks.ev3devices import ColorSensor
 
