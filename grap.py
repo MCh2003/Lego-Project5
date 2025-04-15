@@ -10,7 +10,7 @@ class Graper:
     def detect_and_grap(self):
         """Wartet auf eine Erkennung und greift das Objekt."""
         print("Warten auf Erkennung...")
-        while not self.sensor.pressed():  # Wartet auf Objekterkennung
+        while not self.sensor.pressed():
             wait(10)
 
         print("Objekt erkannt! Bewege den Greifer nach unten...")
@@ -20,3 +20,11 @@ class Graper:
         self.motor.run_angle(500, -400)  # Objekt greifen
 
         print("Greifvorgang abgeschlossen.")
+
+    def release_object(self):
+        """Öffnet den Greifer, um das Objekt loszulassen."""
+        print("Objekt wird losgelassen...")
+        self.motor.run_angle(500, 400)  # Greifer öffnen (Gegenteil vom Greifen)
+
+        print("Greifer ist geöffnet.")
+
