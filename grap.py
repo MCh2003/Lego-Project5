@@ -2,21 +2,21 @@ from pybricks.ev3devices import Motor, TouchSensor
 from pybricks.parameters import Port
 from pybricks.tools import wait
 
-class GrapUnit:
-    def __init__(self):
-        self.motor = Motor(Port.A)               # Greifer-Motor
-        self.sensor = TouchSensor(Port.S2)       # Linker Sensor über dem Objekt
+class Graper:
+    def __init__(self, motor_port=Port.A, sensor_port=Port.S2):
+        self.motor = Motor(motor_port)
+        self.sensor = TouchSensor(sensor_port)  # Linker Sensor erkennt das Objekt
 
-    def grapObject(self):
-        print("Warten auf Erkennung mit dem Sensor...")
+    def detect_and_grap(self):
+        """Wartet auf eine Erkennung und greift das Objekt."""
+        print("Warten auf Erkennung...")
+        while not self.sensor.pressed():  # Wartet auf Objekterkennung
+            wait(10)
 
-        while not self.sensor.pressed():
-            wait(10)  # 10ms warten
+        print("Objekt erkannt! Bewege den Greifer nach unten...")
+        self.motor.run_angle(500, 800)  # Greifer nach unten bewegen
 
-        print("Objekt erkannt. Bewege Greifer nach unten.")
-        self.motor.run_angle(500, 800)  # z.B. 800° – anpassen je nach Mechanik
+        print("Greife das Objekt...")
+        self.motor.run_angle(500, -400)  # Objekt greifen
 
-        print("Schließe den Greifer.")
-        self.motor.run_angle(500, -400)  # z.B. -400° für Greifen – auch anpassbar
-
-        print("Fertig gegrapet.")
+        print("Greifvorgang abgeschlossen.")
