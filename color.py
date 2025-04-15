@@ -55,7 +55,7 @@ def main():
                 # Zum Stapelbereich fahren
                 go_to_stack_area(driving)
                 # Block ablegen (release-Methode in grap.py muss implementiert sein)
-                graper.release()
+                graper.release_object()
                 # Zurück zum Suchbereich
                 go_to_search_area(driving)
             else:
