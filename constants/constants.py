@@ -27,4 +27,7 @@ class Movement:
 class Sensors:
     OBSTACLE_DISTANCE = 100  # Distanz in mm, um ein Hindernis zu erkennen
 
+class EV3Speaker:
+    VOLUME = 100  # Volume in %
+    BEEP_DURATION = 1000  # Duration in ms
 # ToDo: class Colors?
