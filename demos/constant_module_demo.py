@@ -1,10 +1,10 @@
-from ..modules.robot import Robot
+from pybricks.hubs import EV3Brick
 
 class ExampleModule:
-    def __init__(self, robot: Robot):
-        self.robot = robot
+    def __init__(self, brick: EV3Brick):
+        self.brick = brick
 
     def example(self):
-        self.robot.ev3.speaker.beep()
-        self.robot.driving_unit.startMoving()
-        self.robot.graper.detect_and_grap()
+        self.brick.speaker.set_volume(100)
+        self.brick.speaker.beep()
+        self.foo = "Hello World"
