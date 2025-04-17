@@ -1,9 +1,10 @@
 from pybricks.ev3devices import Motor, TouchSensor
 from pybricks.parameters import Port
 from pybricks.tools import wait
+from ..constants.constants import Ports
 
 class Graper:
-    def __init__(self, motor_port=Port.A, sensor_port=Port.S2):
+    def __init__(self, motor_port=Ports.MOTOR_GRAPPER, sensor_port=Ports.TOUCH_SENSOR_PORT):
         self.motor = Motor(motor_port)
         self.sensor = TouchSensor(sensor_port)  # Linker Sensor erkennt das Objekt
 
