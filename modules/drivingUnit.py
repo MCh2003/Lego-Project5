@@ -2,13 +2,12 @@ from pybricks.hubs import EV3Brick
 from pybricks.ev3devices import Motor
 from pybricks.parameters import Port
 from pybricks.robotics import DriveBase
+from ..constants.constants import Movement
 
 class DrivingUnit:
-    def __init__(self):
-        robot = DriveBase(Motor(Port.C), Motor(Port.D), wheel_diameter=55.5, axle_track=104)
-
+    def __init__(self, left_motor_port=Movement.MOTOR_LEFT, right_motor_port=Movement.MOTOR_RIGHT,
+                  wheel_diameter=Movement.WHEEL_DIAMETER, axle_track=Movement.AXLE_TRACK):
+        self.robot = DriveBase(Motor(left_motor_port), Motor(right_motor_port), wheel_diameter, axle_track)
 
     def startMoving(self):
-        robot.straight(1000)
-    
-    
+        self.robot.straight(1000)
