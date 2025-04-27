@@ -1,29 +1,28 @@
 from pybricks.parameters import Port, Color, Direction
-from . import Graper, DrivingUnit
 from pybricks.hubs import EV3Brick
 
 class Ports:
     """Ports for the EV3 Brick"""
     # Motor Ports
-    MOTOR_GRAPPER = Port.A
-    MOTOR_DRIVE_LEFT = Port.C
-    MOTOR_DRIVE_RIGHT = Port.D
+    MOTOR_DRIVE_FRONT = Port.B
+    MOTOR_DRIVE_BACK = Port.C
+
+    # Motor Grapper Ports
+    MOTOR_GRAPPER_OPEN_CLOSE = Port.A
+    MOTOR_GRAPPER_UP_DOWN = Port.D 
 
     # Sensor Ports
-    TOUCH_SENSOR_PORT = Port.S2 # Linker Sensor
+    ULTRASOUND_SENSOR_PORT = Port.S2
     COLOR_SENSOR_PORT = Port.S3
-
-    # ToDo: Richtiger Sensor ???
-    GYRO_SENSOR_PORT = Port.S4
-
+    INFRARED_SENSOR_PORT = Port.S4
 
 class Movement:
     """Movement default values"""
     WHEEL_DIAMETER = 55.5  # Durchmesser der Räder in mm
     AXLE_TRACK = 104  # Abstand zwischen den Rädern in mm
-    MOTOR_LEFT = Ports.MOTOR_DRIVE_LEFT
-    MOTOR_RIGHT = Ports.MOTOR_DRIVE_RIGHT
-    DRIVE_SPEED = 200
+    MOTOR_FRONT = Ports.MOTOR_DRIVE_FRONT
+    MOTOR_BACK = Ports.MOTOR_DRIVE_BACK
+    DRIVE_SPEED = 500 # Geschwindigkeit in mm/s
     TURN_SPEED = 100 
 
 class Sensors:
