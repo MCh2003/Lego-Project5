@@ -17,11 +17,10 @@ class Graper:
 
     def move_up(self):
         """Bewege den Greifer nach oben."""
-        self.motor_up_down.run_target(100, -90, Stop.HOLD, False)  # Move to 90 degrees
-        wait(3000)
         print("Greifer nach oben bewegt.")
-        self.motor_up_down.stop()  
+        self.motor_up_down.run_target(100, -90, Stop.HOLD, False)  # Move to 90 degrees
         print("Greifer gestoppt.")
+
     
     def move_down(self):
         """Bewege den Greifer nach unten."""
@@ -31,18 +30,15 @@ class Graper:
         self.motor_up_down.stop()
         print("Greifer gestoppt.")
     
-    def open(self):
-        """Öffne den Greifer."""
-        self.motor_open_close.run_target(10, -90, Stop.HOLD, False)  # Move to 90 degrees
-        print("Greifer nach oben bewegt.")
-        wait(3000)  # Warte 1 Sekunde
-        self.motor_open_close.stop()
-        print("Greifer gestoppt.")    
+    def open(self) -> int:
+        """Opens the grapper and retursn the angle of the grapper."""
+        print("Open grapper")
+        self.motor_open_close.angle
+        self.motor_open_close.run_target(300, 720, Stop.HOLD, True) 
+        print("Grapper stopped.")    
 
     def close(self):
         """Schließe den Greifer."""
-        self.motor_open_close.run_target(10, 90, Stop.HOLD, False)
-        print("Greifer nach oben bewegt.")
-        wait(3000)  # Warte 1 Sekunde
-        self.motor_open_close.stop()
-        print("Greifer gestoppt.")    
+        print("Close grapper1")
+        self.motor_open_close.run_target(300, 360, Stop.HOLD, True) 
+        print("Grapper stopped")    

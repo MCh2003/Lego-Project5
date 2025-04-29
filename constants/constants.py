@@ -22,12 +22,13 @@ class Movement:
     AXLE_TRACK = 104  # Abstand zwischen den Rädern in mm
     MOTOR_FRONT = Ports.MOTOR_DRIVE_FRONT
     MOTOR_BACK = Ports.MOTOR_DRIVE_BACK
-    DRIVE_SPEED = 500 # Geschwindigkeit in mm/s
-    TURN_SPEED = 100 
+    DRIVE_SPEED = 50 # Geschwindigkeit in mm/s
+    TURN_SPEED = 10 
 
 class Sensors:
     """Sensors default values"""
     OBSTACLE_DISTANCE = 100  # Distanz in mm, um ein Hindernis zu erkennen
+    ABYSS_DISTANCE_PERCENT = 10
 
 class EV3Speaker:
     """Primarily used for beeping"""
