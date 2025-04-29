@@ -27,7 +27,7 @@ block_detected = True
 
 while (block_detected):
     print("clear")
-    if robot.abyss_detector.is_abyss_detected():
+    if robot.sensoric_unit.is_abyss_detected():
         # robot.driving_unit.stopMoving()
         print("Abyss detected")
         block_detected = False
