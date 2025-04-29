@@ -23,19 +23,19 @@ robot.ev3.speaker.beep()
 sw = StopWatch()
 robot.driving_unit.start_moving()
 sw.resume()
-blockDetected = False
+block_detected = True
 
-while ():
+while (block_detected):
     print("clear")
     if robot.abyss_detector.is_abyss_detected():
         # robot.driving_unit.stopMoving()
         print("Abyss detected")
+        block_detected = False
         sw.pause()
         robot.driving_unit.start_moving_back_time(time=sw.time())
 
         while robot.driving_unit.is_driving():
             print("moving back")
-
             wait(500)
 
         break
