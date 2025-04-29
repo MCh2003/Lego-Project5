@@ -7,7 +7,7 @@ from pybricks.ev3devices import (
     UltrasonicSensor,
     GyroSensor,
 )
-from modules.abyssDetector import AbyssDetector
+from modules.sensoric_unit import SensoricUnit
 from modules.graper import Graper
 from modules.driving_unit import DrivingUnit
 from constants.constants import Ports, Movement
@@ -20,7 +20,7 @@ class Robot:
         self.ev3 = EV3Brick()
         self.driving_unit = DrivingUnit()
         self.graper = Graper()
-        self.abyss_detector = AbyssDetector()
+        self.sensoric_unit = SensoricUnit()
 
         # Initialize sensors
         # self.color_sensor = ColorSensor(Ports.COLOR_SENSOR_PORT)
