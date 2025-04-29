@@ -1,7 +1,9 @@
 // Place your settings in this file to overwrite default and user settings.
 {
 	"files.eol": "\n",
-	"debug.openDebug": "neverOpen"
+	"debug.openDebug": "neverOpen",
+	// E401 - multiple imports on one line
+	"flake8.args": ["--max-line-length=160", "--ignore=F401"],
 	// "python.linting.enabled": false,
 	// "python.languageServer": "None"
 }

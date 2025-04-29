@@ -1,7 +1,13 @@
 #!/usr/bin/env pybricks-micropython
 from pybricks.hubs import EV3Brick
-from pybricks.ev3devices import (Motor, TouchSensor, ColorSensor,
-                                 InfraredSensor, UltrasonicSensor, GyroSensor)
+from pybricks.ev3devices import (
+    Motor,
+    TouchSensor,
+    ColorSensor,
+    InfraredSensor,
+    UltrasonicSensor,
+    GyroSensor,
+)
 from pybricks.parameters import Port, Stop, Direction, Button, Color
 from pybricks.tools import wait, StopWatch, DataLog
 from pybricks.robotics import DriveBase
@@ -14,16 +20,32 @@ robot = Robot()
 robot.ev3.speaker.set_volume(EV3Speaker.VOLUME - 30)
 robot.ev3.speaker.beep()
 
-robot.driving_unit.startMoving()
-while (True):
+sw = StopWatch()
+robot.driving_unit.start_moving()
+sw.resume()
+blockDetected = False
+
+while ():
     print("clear")
     if robot.abyss_detector.is_abyss_detected():
         # robot.driving_unit.stopMoving()
         print("Abyss detected")
+        sw.pause()
+        robot.driving_unit.start_moving_back_time(time=sw.time())
+
+        while robot.driving_unit.is_driving():
+            print("moving back")
+
+            wait(500)
+
         break
     wait(500)
 
-robot.driving_unit.stopMoving()
+robot.driving_unit.stop_moving()
+
+blockDetected = False
+
+robot.driving_unit.start_moving_back_time(time=sw.time())
 robot.ev3.speaker.beep()
 
 # robot.graper.move_up() # Move the grapper up
@@ -38,7 +60,7 @@ robot.ev3.speaker.beep()
 # motor_open_close.run_target(-1000, -600, Stop.HOLD, True)  # Move to 90 degrees
 # print("Greifer nach oben bewegt.")
 # motor_open_close.stop()
-# print("Greifer gestoppt.")   
+# print("Greifer gestoppt.")
 
 # robot.graper.move_down()  # Move the grapper down
 
