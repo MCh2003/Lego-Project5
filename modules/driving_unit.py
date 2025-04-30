@@ -21,20 +21,22 @@ class DrivingUnit:
             wheel_diameter, axle_track
         )
         self.brick = brick
+        self.lastDistance = self.drive_base.distance()
 
     def start_moving(self, speed=Movement.DRIVE_SPEED, degrees=0):
-        self.brick.speaker.beep()
         self.drive_base.drive(speed, degrees)
 
-    def start_moving_back_time(self, speed=Movement.DRIVE_SPEED, degrees=0, time=1000):
-        print("start_moving_back_time: start")
-        self.start_moving(speed=speed * -1)
-        wait(time)
-        self.stop_moving()
-        print("start_moving_back_time: end")
+    def start_moving_back(self, speed=Movement.DRIVE_SPEED, degrees=0):
+        print("start_moving_back: start")
+        self.start_moving(speed=speed * -1, degrees=degrees)
+        print("start_moving_back: end")
 
     def stop_moving(self):
         self.drive_base.stop()
 
     def is_driving(self):
-        return self.drive_base.done()
+        print("is_driving")
+        print(self.drive_base.distance(), " ", self.lastDistance)
+        result = self.drive_base.distance() != self.lastDistance
+        self.lastDistance = self.drive_base.distance()
+        return result

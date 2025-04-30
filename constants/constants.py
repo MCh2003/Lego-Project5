@@ -26,7 +26,7 @@ class Movement:
     AXLE_TRACK = 104  # Abstand zwischen den Rädern in mm
     MOTOR_FRONT = Ports.MOTOR_DRIVE_FRONT
     MOTOR_BACK = Ports.MOTOR_DRIVE_BACK
-    DRIVE_SPEED = 50  # Geschwindigkeit in mm/s
+    DRIVE_SPEED = 70  # Geschwindigkeit in mm/s
     TURN_SPEED = 10
 
 

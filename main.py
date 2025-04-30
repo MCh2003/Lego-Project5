@@ -21,31 +21,35 @@ robot.ev3.speaker.set_volume(EV3Speaker.VOLUME - 30)
 robot.ev3.speaker.beep()
 
 sw = StopWatch()
-robot.driving_unit.start_moving()
-sw.resume()
 block_detected = True
+while block_detected:
+    robot.driving_unit.start_moving()
+    sw.resume()
 
-while (block_detected):
-    print("clear")
+    print("time passed: " + str(sw.time()))
     if robot.sensoric_unit.is_abyss_detected():
         # robot.driving_unit.stopMoving()
         print("Abyss detected")
         block_detected = False
+        robot.driving_unit.start_moving_back()
+
         sw.pause()
-        robot.driving_unit.start_moving_back_time(time=sw.time())
+        time_left = sw.time()
+        sw.reset()
+        sw.resume()
+        while time_left > sw.time():
+            if robot.sensoric_unit.is_block_detected():
+                print("Block detected")
+                block_detected = True
+            # ToDo: may cause inaccuracy
+            wait(50)
 
-        while robot.driving_unit.is_driving():
-            print("moving back")
-            wait(500)
+        sw.pause()
+        sw.reset()
 
-        break
-    wait(500)
+    wait(100)
 
 robot.driving_unit.stop_moving()
-
-blockDetected = False
-
-robot.driving_unit.start_moving_back_time(time=sw.time())
 robot.ev3.speaker.beep()
 
 # robot.graper.move_up() # Move the grapper up
