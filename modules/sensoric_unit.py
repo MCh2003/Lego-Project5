@@ -19,9 +19,11 @@ class SensoricUnit:
         return self.infrared_sensor.distance() > Sensors.ABYSS_DISTANCE_PERCENT
 
     def is_block_detected(self) -> bool:
-        return self.ultrasonic_sensor.distance(True) < Sensors.OBSTACLE_DISTANCE
+        distance = self.ultrasonic_sensor.distance(False)
+        print("Distance: ", distance)
+        return distance < Sensors.OBSTACLE_DISTANCE
 
-    def closest_color(detected_rgb=(0, 0, 0), colors=[], tolerance=50):
+    def closest_color(detected_rgb: tuple[int, int, int] = (0, 0, 0), colors=[], tolerance=50) -> tuple[int, int, int]:
         min_distance = float("inf")
         best_match = None
 

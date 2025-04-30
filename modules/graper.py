@@ -35,8 +35,12 @@ class Graper:
         self.motor_up_down.stop()
         print("Greifer gestoppt.")
 
+    def hold(self):
+        angle = self.motor_up_down.angle()
+        self.motor_up_down.run_target(100, angle, Stop.HOLD, False)
+
     def open(self) -> int:
-        """Opens the grapper and retursn the angle of the grapper."""
+        """Opens the grapper and returns the angle of the grapper."""
         print("Open grapper")
         prev_angle = self.motor_open_close.angle()
         self.motor_open_close.run_target(300, 720, Stop.HOLD, True)
