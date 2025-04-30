@@ -64,14 +64,17 @@ while is_block_left:
         print("Block detected")
         sw.pause()
         blocks_checked += 1
+
         robot.driving_unit.start_moving(Movement.BLOCK_CLOSE_UP_SPEED)
         wait(Movement.CLOSE_UP_TIME)
         robot.driving_unit.stop_moving()
+
         detected_color = robot.sensoric_unit.get_color()
         print("Detected color: ", detected_color)
         closest_color = SensoricUnit.closest_color(detected_color, colors, 50)
         if closest_color is not None:
             print("Closest color: ", closest_color)
+            # ToDo: logic for what to do with color - pickup etc.
 
     # Check for abyss
     if robot.sensoric_unit.is_abyss_detected():
@@ -91,8 +94,6 @@ while is_block_left:
             if robot.sensoric_unit.is_block_detected():
                 print("Block detected")
                 is_block_left = True
-
-            # ToDo: may cause inaccuracy
             wait(50)
 
         sw.pause()
