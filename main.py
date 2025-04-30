@@ -1,4 +1,5 @@
 #!/usr/bin/env pybricks-micropython
+import math
 from pybricks.hubs import EV3Brick
 from pybricks.ev3devices import (
     Motor,
@@ -16,7 +17,7 @@ from constants.constants import Ports, Movement, EV3Speaker
 from modules.robot import Robot
 
 
-def calibrate_colors():
+def calibrate_colors(robot: Robot):
     robot.ev3.speaker.say("Calibrate Colors")
 
     colors = []
@@ -31,56 +32,82 @@ def calibrate_colors():
     return colors
 
 
-robot = Robot()
-robot.ev3.speaker.beep()
+def closest_color(detected_rgb, tolerance=50):
+    min_distance = float("inf")
+    best_match = None
 
-colors = calibrate_colors()
+    for color in colors:
+        # Euclidean distance: https://en.wikipedia.org/wiki/Euclidean_distance
+        distance = math.sqrt(
+            (detected_rgb[0] - color[0]) ** 2
+            + (detected_rgb[1] - color[1]) ** 2
+            + (detected_rgb[2] - color[2]) ** 2
+        )
 
-sw = StopWatch()
-block_detected = colors.count() > 0
-# block_detected = True
-while block_detected:
-    robot.driving_unit.start_moving()
-    sw.resume()
+        if distance < min_distance:
+            min_distance = distance
+            best_match = color
 
-    print("time passed: " + str(sw.time()))
-    if robot.sensoric_unit.is_abyss_detected():
-        # robot.driving_unit.stopMoving()
-        print("Abyss detected")
-        block_detected = False
-        robot.driving_unit.start_moving_back()
+    return best_match if min_distance <= tolerance else None
 
-        time_left = sw.time()
-        sw.reset()
-        while time_left > sw.time():
-            if robot.sensoric_unit.is_block_detected():
-                print("Block detected")
-                block_detected = True
-            # ToDo: may cause inaccuracy
-            wait(50)
 
-        sw.pause()
-        sw.reset()
+colors = [
+    (0, 0, 0),  # Black
+    (255, 0, 0),  # Red
+    (0, 255, 0),  # Green
+    (0, 0, 255),  # Blue
+]
 
-    wait(100)
+# robot = Robot()
+# robot.ev3.speaker.beep()
 
-robot.driving_unit.stop_moving()
-robot.ev3.speaker.beep()
+# colors = calibrate_colors(robot)
 
-# robot.graper.move_up() # Move the grapper up
+# sw = StopWatch()
+# block_detected = colors.count() > 0
+# # block_detected = True
+# while block_detected:
+#     robot.driving_unit.start_moving()
+#     sw.resume()
 
-# drive_base = DriveBase(Motor(Ports.MOTOR_DRIVE_FRONT), Motor(Ports.MOTOR_DRIVE_BACK), Movement.WHEEL_DIAMETER, Movement.AXLE_TRACK)
-# drive_base.drive(20, 0)  # Move forward at the default speed
-# wait(1000)  # Wait for 2 seconds
-# drive_base.stop()  # Stop moving
+#     print("time passed: " + str(sw.time()))
+#     if robot.sensoric_unit.is_abyss_detected():
+#         # robot.driving_unit.stopMoving()
+#         print("Abyss detected")
+#         block_detected = False
+#         robot.driving_unit.start_moving_back()
 
-# motor_open_close = Motor(Ports.MOTOR_GRAPPER_OPEN_CLOSE)
-# motor_open_close.run_target(-1000, 1800, Stop.HOLD, True)
-# motor_open_close.run_target(-1000, -600, Stop.HOLD, True)  # Move to 90 degrees
-# print("Greifer nach oben bewegt.")
-# motor_open_close.stop()
-# print("Greifer gestoppt.")
+#         time_left = sw.time()
+#         sw.reset()
+#         while time_left > sw.time():
+#             if robot.sensoric_unit.is_block_detected():
+#                 print("Block detected")
+#                 block_detected = True
+#             # ToDo: may cause inaccuracy
+#             wait(50)
 
-# robot.graper.move_down()  # Move the grapper down
+#         sw.pause()
+#         sw.reset()
 
-# robot.ev3.speaker.beep()  # Beep to indicate the start of the program
+#     wait(100)
+
+# robot.driving_unit.stop_moving()
+# robot.ev3.speaker.beep()
+
+# # robot.graper.move_up() # Move the grapper up
+
+# # drive_base = DriveBase(Motor(Ports.MOTOR_DRIVE_FRONT), Motor(Ports.MOTOR_DRIVE_BACK), Movement.WHEEL_DIAMETER, Movement.AXLE_TRACK)
+# # drive_base.drive(20, 0)  # Move forward at the default speed
+# # wait(1000)  # Wait for 2 seconds
+# # drive_base.stop()  # Stop moving
+
+# # motor_open_close = Motor(Ports.MOTOR_GRAPPER_OPEN_CLOSE)
+# # motor_open_close.run_target(-1000, 1800, Stop.HOLD, True)
+# # motor_open_close.run_target(-1000, -600, Stop.HOLD, True)  # Move to 90 degrees
+# # print("Greifer nach oben bewegt.")
+# # motor_open_close.stop()
+# # print("Greifer gestoppt.")
+
+# # robot.graper.move_down()  # Move the grapper down
+
+# # robot.ev3.speaker.beep()  # Beep to indicate the start of the program
