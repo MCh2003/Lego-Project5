@@ -10,7 +10,7 @@ from pybricks.ev3devices import (
 from modules.sensoric_unit import SensoricUnit
 from modules.graper import Graper
 from modules.driving_unit import DrivingUnit
-from constants.constants import Ports, Movement
+from constants.constants import Ports, Movement, EV3Speaker
 
 
 class Robot:
@@ -21,6 +21,9 @@ class Robot:
         self.driving_unit = DrivingUnit()
         self.graper = Graper()
         self.sensoric_unit = SensoricUnit()
+
+        self.ev3.speaker.set_volume(EV3Speaker.VOLUME)
+        self.ev3.speaker.set_speech_options(language="en", voice="m3", speed=180, pitch=50)
 
         # Initialize sensors
         # self.color_sensor = ColorSensor(Ports.COLOR_SENSOR_PORT)

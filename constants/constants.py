@@ -27,6 +27,8 @@ class Movement:
     MOTOR_FRONT = Ports.MOTOR_DRIVE_FRONT
     MOTOR_BACK = Ports.MOTOR_DRIVE_BACK
     DRIVE_SPEED = 70  # Geschwindigkeit in mm/s
+    BLOCK_CLOSE_UP_SPEED = 50  # leave this at 50 mm/s
+    CLOSE_UP_TIME = 3500  # if BLOCK_CLOSE_UP_SPEED is changed, change this too (50 mm/s = 3500 ms)
     TURN_SPEED = 10
 
 
@@ -40,7 +42,7 @@ class Sensors:
 class EV3Speaker:
     """Primarily used for beeping"""
 
-    VOLUME = 100  # Volume in %
+    VOLUME = 60  # Volume in %
     BEEP_DURATION = 1000  # Duration in ms
 
 
