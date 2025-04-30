@@ -15,13 +15,30 @@ from pybricks.media.ev3dev import SoundFile, ImageFile
 from constants.constants import Ports, Movement, EV3Speaker
 from modules.robot import Robot
 
-robot = Robot()
 
-robot.ev3.speaker.set_volume(EV3Speaker.VOLUME - 30)
+def calibrate_colors():
+    robot.ev3.speaker.say("Calibrate Colors")
+
+    colors = []
+    while not robot.ev3.buttons.pressed().__contains__(Button.UP):
+        curr_color = robot.sensoric_unit.get_color()
+        robot.ev3.screen.print(curr_color)
+
+        if robot.ev3.buttons.pressed().__contains__(Button.CENTER):
+            robot.ev3.speaker.beep()
+            colors.append(curr_color)
+
+    return colors
+
+
+robot = Robot()
 robot.ev3.speaker.beep()
 
+colors = calibrate_colors()
+
 sw = StopWatch()
-block_detected = True
+block_detected = colors.count() > 0
+# block_detected = True
 while block_detected:
     robot.driving_unit.start_moving()
     sw.resume()
@@ -33,10 +50,8 @@ while block_detected:
         block_detected = False
         robot.driving_unit.start_moving_back()
 
-        sw.pause()
         time_left = sw.time()
         sw.reset()
-        sw.resume()
         while time_left > sw.time():
             if robot.sensoric_unit.is_block_detected():
                 print("Block detected")

@@ -21,10 +21,4 @@ class SensoricUnit:
         return self.ultrasonic_sensor.distance(True) < Sensors.OBSTACLE_DISTANCE
 
     def get_color(self):
-        """Returns the color of the sensor. If no color is detected, returns the RGB value."""
-        print("get_color")
-        col = self.color_sensor.color()
-        if col is not None:
-            print("get_color: ", col)
-            return col
         return self.color_sensor.rgb()

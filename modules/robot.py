@@ -22,6 +22,9 @@ class Robot:
         self.graper = Graper()
         self.sensoric_unit = SensoricUnit()
 
+        self.ev3.speaker.set_volume(Movement.VOLUME - 30)
+        self.ev3.speaker.set_speech_options(voice="en", voice="m3", speed=180, pitch=50)
+
         # Initialize sensors
         # self.color_sensor = ColorSensor(Ports.COLOR_SENSOR_PORT)
         # self.gyro_sensor = GyroSensor(Ports.GYRO_SENSOR_PORT)
