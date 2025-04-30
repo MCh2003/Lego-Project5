@@ -36,14 +36,6 @@ def calibrate_colors(robot: Robot):
     return colors
 
 
-colors = [
-    (0, 0, 0),  # Black
-    (255, 0, 0),  # Red
-    (0, 255, 0),  # Green
-    (0, 0, 255),  # Blue
-    (255, 255, 255),  # White
-]
-
 robot = Robot()
 robot.ev3.speaker.beep()
 
@@ -59,6 +51,7 @@ while is_block_left:
     robot.driving_unit.start_moving()
     sw.resume()
 
+    # ToDo: put this stuff into separate functions
     # Check for block -> color
     if robot.sensoric_unit.is_block_detected():
         print("Block detected")
