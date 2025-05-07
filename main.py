@@ -73,7 +73,7 @@ while is_block_left:
     if robot.sensoric_unit.is_abyss_detected():
         print("Abyss detected")
         time_left = sw.time()
-        is_block_left = robot.driving_unit.move_back_to_origin(blocks_checked, time_left)
+        is_block_left = robot.move_back_to_origin(blocks_checked, time_left)
 
         sw.pause()
         sw.reset()
