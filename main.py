@@ -72,22 +72,8 @@ while is_block_left:
     # Check for abyss
     if robot.sensoric_unit.is_abyss_detected():
         print("Abyss detected")
-        is_block_left = False
         time_left = sw.time()
-
-        # move back foreach checked block
-        for i in range(0, blocks_checked):
-            robot.driving_unit.start_moving_back(Movement.BLOCK_CLOSE_UP_SPEED)
-            wait(Movement.CLOSE_UP_TIME)
-        blocks_checked = 0
-
-        robot.driving_unit.start_moving_back()
-        sw.reset()
-        while time_left > sw.time():
-            if robot.sensoric_unit.is_block_detected():
-                print("Block detected")
-                is_block_left = True
-            wait(50)
+        is_block_left = robot.driving_unit.move_back_to_origin(blocks_checked, time_left)
 
         sw.pause()
         sw.reset()

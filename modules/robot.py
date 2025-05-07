@@ -18,7 +18,7 @@ class Robot:
 
     def __init__(self):
         self.ev3 = EV3Brick()
-        self.driving_unit = DrivingUnit()
+        self.driving_unit = DrivingUnit(robot=self)
         self.graper = Graper()
         self.sensoric_unit = SensoricUnit()
 
