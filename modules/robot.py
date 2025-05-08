@@ -24,7 +24,9 @@ class Robot:
         self.sensoric_unit = SensoricUnit()
 
         self.ev3.speaker.set_volume(EV3Speaker.VOLUME)
-        self.ev3.speaker.set_speech_options(language="en", voice="m3", speed=180, pitch=50)
+        self.ev3.speaker.set_speech_options(
+            language="en", voice="m3", speed=180, pitch=50
+        )
 
         # Initialize sensors
         # self.color_sensor = ColorSensor(Ports.COLOR_SENSOR_PORT)
@@ -58,12 +60,16 @@ class Robot:
 
         return is_block_left
 
-    def scan_color(self, colors: list[tuple[int, int, int]]) -> tuple[int, int, int] | None:
+    def scan_color(
+        self, colors: list[tuple[int, int, int]]
+    ) -> tuple[int, int, int] | None:
         detected_color = self.sensoric_unit.get_color()
         print("Detected color: ", detected_color)
         return SensoricUnit.closest_color(detected_color, colors, 50)
 
-    def process_detected_block(self, sw: StopWatch, colors: list[tuple[int, int, int]]) -> tuple[int, int, int]:
+    def process_detected_block(
+        self, sw: StopWatch, colors: list[tuple[int, int, int]]
+    ) -> tuple[int, int, int]:
         sw.pause()
 
         self.move_color_sensor_to_block()
@@ -72,8 +78,10 @@ class Robot:
         closest_color = self.scan_color(colors)
 
         return closest_color
-    
-    def lift_stone(self, color: tuple[int, int, int], colors: list[tuple[int, int, int]]):
+
+    def lift_stone(
+        self, color: tuple[int, int, int], colors: list[tuple[int, int, int]]
+    ):
         self.graper.close()
         self.graper.up()
         self.graper.hold()
@@ -85,4 +93,9 @@ class Robot:
             self.ev3.speaker.say("OOOOOOOF")
             return
 
-
+    def drop_stone_arm_open_up_hold(self):
+        """Lifts the stone and idles the graper (up-down: up, open-close:open)."""
+        self.graper.down()
+        self.graper.open()
+        self.graper.up()
+        self.graper.hold()

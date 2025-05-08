@@ -43,6 +43,7 @@ robot.graper.up()
 robot.graper.hold()
 colors = calibrate_colors(robot)
 robot.ev3.speaker.beep()
+
 sw = StopWatch()
 is_block_left = len(colors) > 0
 blocks_checked = 0
@@ -73,7 +74,12 @@ while is_block_left:
                 closest_color = robot.process_detected_block(sw, colors)
                 if (closest_color is not None) and (closest_color == current_color):
                     print("Block still there")
-                    # ToDo: what to do with the block
+                    robot.driving_unit.turn_clockwise()
+
+                    # ToDo: stacking blocks logic
+                    robot.drop_stone_arm_open_up_hold()
+
+                    robot.driving_unit.turn_counter_clockwise()
                 else:
                     print("Block dropped")
             else:

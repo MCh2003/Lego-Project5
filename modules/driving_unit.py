@@ -39,3 +39,12 @@ class DrivingUnit:
         result = self.drive_base.distance() != self.lastDistance
         self.lastDistance = self.drive_base.distance()
         return result
+
+    def turn_degrees(self, degrees=0):
+        self.drive_base.turn(degrees, then=Stop.HOLD, wait=True)
+
+    def turn_clockwise(self):
+        self.turn_degrees(Movement.TURN_CLOCKWISE_DEGREES)
+
+    def turn_counter_clockwise(self):
+        self.turn_degrees(Movement.TURN_COUNTER_CLOCKWISE_DEGREES)
