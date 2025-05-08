@@ -30,6 +30,8 @@ class Movement:
     BLOCK_CLOSE_UP_SPEED = 50  # leave this at 50 mm/s
     CLOSE_UP_TIME = 3500  # if BLOCK_CLOSE_UP_SPEED is changed, change this too (50 mm/s = 3500 ms)
     TURN_SPEED = 10
+    TURN_COUNTER_CLOCKWISE = -180
+    TURN_CLOCKWISE = 180
 
 
 class Sensors:

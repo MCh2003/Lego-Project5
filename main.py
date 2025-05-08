@@ -39,12 +39,15 @@ def calibrate_colors(robot: Robot) -> list[tuple[int, int, int]]:
 robot = Robot()
 robot.ev3.speaker.beep()
 
+robot.graper.up()
 robot.graper.hold()
 colors = calibrate_colors(robot)
 robot.ev3.speaker.beep()
+
 sw = StopWatch()
 is_block_left = len(colors) > 0
 blocks_checked = 0
+current_color = None
 
 # block_detected = True
 while is_block_left:
@@ -59,11 +62,35 @@ while is_block_left:
         closest_color = robot.process_detected_block(sw, colors)
         if closest_color is not None:
             print("Closest color: ", closest_color)
-            # ToDo: logic for what to do with color - pickup etc.
+
+            if current_color is None:
+                current_color = closest_color
+
+            if closest_color == current_color:
+                print("Lifting block")
+                robot.lift_stone(closest_color, colors)
+
+                # Check if block is still there
+                closest_color = robot.process_detected_block(sw, colors)
+                if (closest_color is not None) and (closest_color == current_color):
+                    print("Block still there")
+                    robot.driving_unit.turn_clockwise()
+
+                    # ToDo: stacking blocks logic
+                    robot.drop_stone_arm_open_up_hold()
+
+                    robot.driving_unit.turn_counter_clockwise()
+                else:
+                    print("Block dropped")
+            else:
+                print("Wrong color")
+                robot.graper.up()
+                robot.graper.hold()
 
     # Check for abyss
     if robot.sensoric_unit.is_abyss_detected():
         print("Abyss detected")
+        current_color = None
         is_block_left = robot.move_back_to_origin(blocks_checked, sw)
 
     wait(100)
