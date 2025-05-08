@@ -32,17 +32,6 @@ class Movement:
     TURN_SPEED = 10
 
 
-class Grapper:
-    """Grapper default values"""
-    DOWN_ANGLE = 0
-    UP_ANGLE = -30
-    UP_DOWN_SPEED = 10
-
-    OPEN_ANGLE = 0
-    CLOSE_ANGLE = -720
-    OPEN_CLOSE_SPEED = 160
-
-
 class Sensors:
     """Sensors default values"""
 

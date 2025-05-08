@@ -13,6 +13,14 @@ from pybricks.tools import wait
 
 class Graper:
     """Greifer-Klasse, die den Greifer des Roboters verwaltet."""
+    class Constants:
+        DOWN_ANGLE = 0
+        UP_ANGLE = -30
+        UP_DOWN_SPEED = 10
+
+        OPEN_ANGLE = 0
+        CLOSE_ANGLE = -720
+        OPEN_CLOSE_SPEED = 160
 
     def __init__(self):
         print("Initializing Graper...")
@@ -52,3 +60,9 @@ class Graper:
         print("Close grapper1")
         self.motor_open_close.run_target(300, 360, Stop.HOLD, True)
         print("Grapper stopped")
+
+    def up(self):
+        self.motor_up_down.run_target(Graper.UP_DOWN_SPEED, Graper.Constants.UP_ANGLE, Stop.HOLD, True)
+
+    def down(self):
+        self.motor_up_down.run_target(Graper.UP_DOWN_SPEED, Graper.Constants.DOWN_ANGLE, Stop.HOLD, True)

@@ -39,6 +39,7 @@ def calibrate_colors(robot: Robot) -> list[tuple[int, int, int]]:
 robot = Robot()
 robot.ev3.speaker.beep()
 
+robot.graper.up()
 robot.graper.hold()
 colors = calibrate_colors(robot)
 robot.ev3.speaker.beep()
