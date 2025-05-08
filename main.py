@@ -47,6 +47,8 @@ robot.ev3.speaker.beep()
 sw = StopWatch()
 is_block_left = len(colors) > 0
 blocks_checked = 0
+blocks_to_skip = 0
+blocks_skipped = 0
 current_color = None
 
 # block_detected = True
@@ -57,14 +59,24 @@ while is_block_left:
     # Check for block -> color
     if robot.sensoric_unit.is_block_detected():
         print("Block detected")
-        blocks_checked += 1
 
+        if blocks_skipped < blocks_to_skip:
+            blocks_skipped += 1
+            sw.pause()
+            robot.move_color_sensor_to_block()
+            continue
+
+        # graper is down and open
         closest_color = robot.process_detected_block(sw, colors)
         if closest_color is not None:
             print("Closest color: ", closest_color)
+            blocks_checked += 1
 
             if current_color is None:
+                print("First block")
                 current_color = closest_color
+                sw.reset()
+                blocks_checked = 0
 
             if closest_color == current_color:
                 print("Lifting block")
@@ -74,6 +86,9 @@ while is_block_left:
                 closest_color = robot.process_detected_block(sw, colors)
                 if (closest_color is not None) and (closest_color == current_color):
                     print("Block still there")
+                    # Drive back to the block
+                    robot.move_back_to_origin(blocks_checked, sw)
+
                     robot.driving_unit.turn_clockwise()
 
                     # ToDo: stacking blocks logic
@@ -86,12 +101,15 @@ while is_block_left:
                 print("Wrong color")
                 robot.graper.up()
                 robot.graper.hold()
+                blocks_to_skip += 1
 
     # Check for abyss
     if robot.sensoric_unit.is_abyss_detected():
         print("Abyss detected")
         current_color = None
         is_block_left = robot.move_back_to_origin(blocks_checked, sw)
+        blocks_to_skip = 0
+        blocks_skipped = 0
 
     wait(100)
 
