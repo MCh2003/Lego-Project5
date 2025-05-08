@@ -38,9 +38,18 @@ def calibrate_colors(robot: Robot) -> list[tuple[int, int, int]]:
 
 robot = Robot()
 robot.ev3.speaker.beep()
+# while True:
+#     robot.graper.back_to_origin()
+
+
+# robot.driving_unit.turn_clockwise()
+# robot.ev3.speaker.beep()
+# wait(10000)
 
 robot.graper.up()
 robot.graper.hold()
+robot.graper.open()
+
 colors = calibrate_colors(robot)
 robot.ev3.speaker.beep()
 
@@ -83,18 +92,27 @@ while is_block_left:
                 robot.lift_stone(closest_color, colors)
 
                 # Check if block is still there
-                closest_color = robot.process_detected_block(sw, colors)
+                closest_color = robot.scan_color(colors)
                 if (closest_color is not None) and (closest_color == current_color):
                     print("Block still there")
                     # Drive back to the block
-                    robot.move_back_to_origin(blocks_checked, sw)
+                    wait(1000)
+                    robot.graper.down()
+                    robot.graper.open()
+                    print("Block dropped")
+                    wait(1000)
+                    robot.graper.up()
+                    robot.graper.hold()
+                    robot.graper.bbl()
+                    exit(0)
+                    # robot.move_back_to_origin(blocks_checked, sw)
 
-                    robot.driving_unit.turn_clockwise()
+                    # robot.driving_unit.turn_clockwise()
 
-                    # ToDo: stacking blocks logic
-                    robot.drop_stone_arm_open_up_hold()
+                    # # ToDo: stacking blocks logic
+                    # robot.drop_stone_arm_open_up_hold()
 
-                    robot.driving_unit.turn_counter_clockwise()
+                    # robot.driving_unit.turn_counter_clockwise()
                 else:
                     print("Block dropped")
             else:

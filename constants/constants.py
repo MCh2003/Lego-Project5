@@ -28,7 +28,7 @@ class Movement:
     MOTOR_BACK = Ports.MOTOR_DRIVE_BACK
     DRIVE_SPEED = 70  # Geschwindigkeit in mm/s
     BLOCK_CLOSE_UP_SPEED = 50  # leave this at 50 mm/s
-    CLOSE_UP_TIME = 3500  # if BLOCK_CLOSE_UP_SPEED is changed, change this too (50 mm/s = 3500 ms)
+    CLOSE_UP_TIME = 4000  # if BLOCK_CLOSE_UP_SPEED is changed, change this too (50 mm/s = 3500 ms)
     TURN_SPEED = 10
     TURN_COUNTER_CLOCKWISE = -180
     TURN_CLOCKWISE = 180

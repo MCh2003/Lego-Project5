@@ -5,7 +5,6 @@ from pybricks.robotics import DriveBase
 from constants.constants import Movement, Ports
 from pybricks.tools import wait, StopWatch
 from pybricks.parameters import Stop
-from modules.robot import Robot
 
 
 class DrivingUnit:
@@ -41,10 +40,10 @@ class DrivingUnit:
         return result
 
     def turn_degrees(self, degrees=0):
-        self.drive_base.turn(degrees, then=Stop.HOLD, wait=True)
+        self.drive_base.turn(180, Stop.HOLD, True)
 
     def turn_clockwise(self):
-        self.turn_degrees(Movement.TURN_CLOCKWISE_DEGREES)
+        self.turn_degrees(Movement.TURN_CLOCKWISE)
 
     def turn_counter_clockwise(self):
-        self.turn_degrees(Movement.TURN_COUNTER_CLOCKWISE_DEGREES)
+        self.turn_degrees(Movement.TURN_COUNTER_CLOCKWISE)

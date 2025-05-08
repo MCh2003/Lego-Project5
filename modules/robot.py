@@ -74,6 +74,7 @@ class Robot:
 
         self.move_color_sensor_to_block()
         self.graper.down()
+        wait(1000)
 
         closest_color = self.scan_color(colors)
 
