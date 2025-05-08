@@ -58,17 +58,31 @@ class Robot:
 
         return is_block_left
 
-    def process_detected_block(self, sw: StopWatch, colors: list[tuple[int, int, int]], blocks_checked: int) -> int:
+    def scan_color(self, colors: list[tuple[int, int, int]]) -> tuple[int, int, int] | None:
+        detected_color = self.sensoric_unit.get_color()
+        print("Detected color: ", detected_color)
+        return SensoricUnit.closest_color(detected_color, colors, 50)
+
+    def process_detected_block(self, sw: StopWatch, colors: list[tuple[int, int, int]]) -> tuple[int, int, int]:
         sw.pause()
 
         self.move_color_sensor_to_block()
+        self.graper.down()
 
-        detected_color = self.sensoric_unit.get_color()
-        print("Detected color: ", detected_color)
-        closest_color = SensoricUnit.closest_color(detected_color, colors, 50)
+        closest_color = self.scan_color(colors)
 
-        if closest_color is not None:
-            print("Closest color: ", closest_color)
-            self.handle_color_action(closest_color)
+        return closest_color
+    
+    def lift_stone(self, color: tuple[int, int, int], colors: list[tuple[int, int, int]]):
+        self.graper.close()
+        self.graper.up()
+        self.graper.hold()
 
-        return blocks_checked
+        closest_color = self.scan_color(colors)
+
+        if (closest_color is None) or (closest_color != color):
+            print("Block dropped")
+            self.ev3.speaker.say("OOOOOOOF")
+            return
+
+
