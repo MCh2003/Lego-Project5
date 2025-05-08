@@ -18,7 +18,7 @@ from modules.robot import Robot
 from modules.sensoric_unit import SensoricUnit
 
 
-def calibrate_colors(robot: Robot):
+def calibrate_colors(robot: Robot) -> list[tuple[int, int, int]]:
     robot.ev3.speaker.say("Calibrate Colors")
 
     colors = []
@@ -51,20 +51,12 @@ while is_block_left:
     robot.driving_unit.start_moving()
     sw.resume()
 
-    # ToDo: put this stuff into separate functions
     # Check for block -> color
     if robot.sensoric_unit.is_block_detected():
         print("Block detected")
-        sw.pause()
         blocks_checked += 1
 
-        robot.driving_unit.start_moving(Movement.BLOCK_CLOSE_UP_SPEED)
-        wait(Movement.CLOSE_UP_TIME)
-        robot.driving_unit.stop_moving()
-
-        detected_color = robot.sensoric_unit.get_color()
-        print("Detected color: ", detected_color)
-        closest_color = SensoricUnit.closest_color(detected_color, colors, 50)
+        closest_color = robot.process_detected_block(sw, colors)
         if closest_color is not None:
             print("Closest color: ", closest_color)
             # ToDo: logic for what to do with color - pickup etc.
@@ -72,11 +64,7 @@ while is_block_left:
     # Check for abyss
     if robot.sensoric_unit.is_abyss_detected():
         print("Abyss detected")
-        time_left = sw.time()
-        is_block_left = robot.move_back_to_origin(blocks_checked, time_left)
-
-        sw.pause()
-        sw.reset()
+        is_block_left = robot.move_back_to_origin(blocks_checked, sw)
 
     wait(100)
 
