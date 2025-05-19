@@ -35,7 +35,6 @@ def calibrate_colors(robot: Robot) -> list[tuple[int, int, int]]:
     robot.ev3.speaker.say("Colors calibrated")
     return colors
 
-
 robot = Robot()
 robot.ev3.speaker.beep()
 
@@ -70,3 +69,6 @@ while is_block_left:
 
 robot.driving_unit.stop_moving()
 robot.ev3.speaker.beep()
+
+
+#test
