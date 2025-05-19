@@ -15,6 +15,8 @@ class DrivingUnit:
         wheel_diameter=Movement.WHEEL_DIAMETER,
         axle_track=Movement.AXLE_TRACK,
     ):
+
+    #Motoren aufruf 
         self.drive_base = DriveBase(
             Motor(left_motor_port), Motor(right_motor_port),
             wheel_diameter, axle_track
