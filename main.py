@@ -71,4 +71,3 @@ robot.driving_unit.stop_moving()
 robot.ev3.speaker.beep()
 
 
-#test
