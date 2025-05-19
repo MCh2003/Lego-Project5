@@ -3,8 +3,9 @@ from pybricks.ev3devices import Motor
 from pybricks.parameters import Port
 from pybricks.robotics import DriveBase
 from constants.constants import Movement, Ports
-from pybricks.tools import wait
+from pybricks.tools import wait, StopWatch
 from pybricks.parameters import Stop
+from modules.robot import Robot
 
 
 class DrivingUnit:
@@ -14,7 +15,6 @@ class DrivingUnit:
         right_motor_port=Movement.MOTOR_BACK,
         wheel_diameter=Movement.WHEEL_DIAMETER,
         axle_track=Movement.AXLE_TRACK,
-        brick=EV3Brick(),
     ):
 
     #Motoren aufruf 
@@ -22,7 +22,6 @@ class DrivingUnit:
             Motor(left_motor_port), Motor(right_motor_port),
             wheel_diameter, axle_track
         )
-        self.brick = brick
         self.lastDistance = self.drive_base.distance()
 
     def start_moving(self, speed=Movement.DRIVE_SPEED, degrees=0):
