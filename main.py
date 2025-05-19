@@ -31,7 +31,6 @@ def optional_close_grapper(robot: Robot):
         wait(50)
     robot.graper.motor_open_close.reset_angle(0)
 
-
 robot = Robot()
 robot.ev3.speaker.beep()
 
@@ -137,3 +136,6 @@ while is_block_left:
 
 robot.driving_unit.stop_moving()
 robot.ev3.speaker.beep()
+
+
+#test
