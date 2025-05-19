@@ -76,7 +76,8 @@ while is_block_left:
             continue
 
         # graper is down and open
-        closest_color = robot.process_detected_block(sw, colors)
+        ## closest_color = robot.process_detected_block(sw, colors)
+        blocks_checked = robot.process_detected_block(sw, colors, blocks_checked)
         if closest_color is not None:
             print("Closest color: ", closest_color)
             blocks_checked += 1
@@ -134,6 +135,3 @@ while is_block_left:
 robot.driving_unit.stop_moving()
 robot.ev3.speaker.beep()
 
-
-# testbranch
-#testbranch2
