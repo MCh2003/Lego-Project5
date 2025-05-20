@@ -59,7 +59,7 @@ class Robot:
         print("Detected color:", detected_color)
         return SensoricUnit.closest_color(detected_color, colors, 50)
 
-    def process_detected_block(self, sw: StopWatch, colors: list[tuple[int, int, int]], blocks_checked: int) -> int:
+    def process_detected_block(self, sw: StopWatch, current_color: tuple[int, int, int], colors: list[tuple[int, int, int]], blocks_checked: int, sw_color = None) -> int:
         """
         Handles the process when a block is detected:
         - Pauses the stopwatch
@@ -67,28 +67,46 @@ class Robot:
         - Scans the block color
         - Executes an action (place and reset)
         """
-        sw.pause()
+
         self.move_color_sensor_to_block()
-        self.graper.down()
+        sw.pause()
+        if sw_color is not None:
+            sw_color.pause
         wait(1000)
 
-        closest_color = self.scan_color(colors)
+        detected_color = self.sensoric_unit.get_color()
+        print("Detected color: ", detected_color)
+        closest_color = SensoricUnit.closest_color(detected_color, colors, 50)
+        print("Closest color: ", closest_color)
 
-        if closest_color is not None:
-            print("Closest color:", closest_color)
-            self.handle_color_action(closest_color)
+        if current_color is None:
+            print("checked that first block is")
+            self.handle_color_action(closest_color, blocks_checked)
+            return closest_color
+            
+        if current_color is not None:
+            print("checked that not first block is")
+            if closest_color == current_color:
+                print("checked for same block")
+                self.handle_color_action(closest_color, blocks_checked)
+                return current_color
 
-        return blocks_checked
+        return detected_color
+    
 
-    def lift_stone(self, color: tuple[int, int, int], colors: list[tuple[int, int, int]]):
+    def lift_stone(self):
+        self.graper.down()
+        print("downed")
+        wait(500)
         self.graper.close()
+        print("closed")
+        wait(5000)
         self.graper.up()
+        print("upped")
+        wait(5000)
         self.graper.hold()
 
-        closest_color = self.scan_color(colors)
-        if closest_color is None or closest_color != color:
-            print("Block dropped")
-            self.ev3.speaker.say("OOOOOOOF")
+        self.ev3.speaker.say("OOOOF")
 
     def drop_stone_arm_open_up_hold(self):
         """
@@ -99,18 +117,31 @@ class Robot:
         self.graper.up()
         self.graper.hold()
 
-    def place_block_at_position(self):
+    def place_block_at_position(self, blocks_checked: int):
         """
         Places a block on the ground precisely and moves slightly backwards.
         """
         print("Placing block...")
         self.graper.down()
+        wait(300)
         self.graper.open()
         wait(300)
         self.graper.up()
         self.driving_unit.start_moving_back(speed=30)
         wait(1000)
         self.driving_unit.stop_moving()
+
+    def rotate_to_placing_pose(self):
+        """
+        Rotates to block place position
+        """
+        self.driving_unit.turn_degrees(Movement.TURN_DEGREE)
+
+    def reset_rotation(self):
+        """
+        Rotates to block place position
+        """
+        self.driving_unit.turn_degrees(-Movement.TURN_DEGREE)
 
     def reset_to_driving_pose(self):
         """
@@ -122,10 +153,14 @@ class Robot:
         wait(1000)
         self.driving_unit.stop_moving()
 
-    def handle_color_action(self, color: tuple[int, int, int]):
+    def handle_color_action(self, color: tuple[int, int, int], blocks_checked: int):
         """
         Executes an action when a known block color is detected.
         """
         print("Handling color action for color:", color)
-        self.place_block_at_position()
+        self.lift_stone()
+        self.rotate_to_placing_pose()
+        if blocks_checked == 0:
+            self.place_block_at_position(blocks_checked)
+        self.reset_rotation()
         self.reset_to_driving_pose()

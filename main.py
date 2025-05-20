@@ -46,20 +46,23 @@ robot.ev3.speaker.beep()
 # robot.ev3.speaker.beep()
 # wait(10000)
 
-robot.graper.up()
-robot.graper.hold()
-robot.graper.open()
+robot.graper.init()
+#robot.driving_unit.turn_degrees(180)
+
 
 colors = calibrate_colors(robot)
 robot.ev3.speaker.beep()
 
 sw = StopWatch()
+sw_color = StopWatch()
 is_block_left = len(colors) > 0
 blocks_checked = 0
 blocks_to_skip = 0
 blocks_skipped = 0
 current_color = None
+closest_color = None
 
+robot.ev3.speaker.say("Starting")
 # block_detected = True
 while is_block_left:
     robot.driving_unit.start_moving()
@@ -69,59 +72,69 @@ while is_block_left:
     if robot.sensoric_unit.is_block_detected():
         print("Block detected")
 
+        if current_color is None:
+            print("First block")
+            current_color = robot.process_detected_block(sw, current_color, colors, blocks_checked)
+            sw_color.resume()
+            blocks_checked += 1
+    
+        if current_color is not None:
+            print("current_color is not none")
+            detected_color = robot.process_detected_block(sw, current_color, colors, blocks_checked, sw_color)
+            if detected_color == current_color:
+                blocks_checked += 1
+            sw_color.resume()
+
+        """
         if blocks_skipped < blocks_to_skip:
             blocks_skipped += 1
             sw.pause()
-            robot.move_color_sensor_to_block()
+            
             continue
+
+
+
+        if closest_color == current_color:
+            print("Lifting block")
+            
+
+            # Check if block is still there
+            closest_color = robot.scan_color(colors)
+            if (closest_color is not None) and (closest_color == current_color):
+                print("Block still there")
+                # Drive back to the block
+                wait(1000)
+                robot.graper.down()
+                robot.graper.open()
+                print("Block dropped")
+                wait(1000)
+                robot.graper.up()
+                robot.graper.hold()
+                robot.graper.bbl()
+                exit(0)
+                # robot.move_back_to_origin(blocks_checked, sw)
+
+                # robot.driving_unit.turn_clockwise()
+
+                # # ToDo: stacking blocks logic
+                # robot.drop_stone_arm_open_up_hold()
+
+                # robot.driving_unit.turn_counter_clockwise()
+            else:
+                print("Block dropped")
+        else:
+            print("Wrong color")
+            robot.graper.up()
+            robot.graper.hold()
+            blocks_to_skip += 1
+
+
+
 
         # graper is down and open
         ## closest_color = robot.process_detected_block(sw, colors)
         blocks_checked = robot.process_detected_block(sw, colors, blocks_checked)
-        if closest_color is not None:
-            print("Closest color: ", closest_color)
-            blocks_checked += 1
-
-            if current_color is None:
-                print("First block")
-                current_color = closest_color
-                sw.reset()
-                blocks_checked = 0
-
-            if closest_color == current_color:
-                print("Lifting block")
-                robot.lift_stone(closest_color, colors)
-
-                # Check if block is still there
-                closest_color = robot.scan_color(colors)
-                if (closest_color is not None) and (closest_color == current_color):
-                    print("Block still there")
-                    # Drive back to the block
-                    wait(1000)
-                    robot.graper.down()
-                    robot.graper.open()
-                    print("Block dropped")
-                    wait(1000)
-                    robot.graper.up()
-                    robot.graper.hold()
-                    robot.graper.bbl()
-                    exit(0)
-                    # robot.move_back_to_origin(blocks_checked, sw)
-
-                    # robot.driving_unit.turn_clockwise()
-
-                    # # ToDo: stacking blocks logic
-                    # robot.drop_stone_arm_open_up_hold()
-
-                    # robot.driving_unit.turn_counter_clockwise()
-                else:
-                    print("Block dropped")
-            else:
-                print("Wrong color")
-                robot.graper.up()
-                robot.graper.hold()
-                blocks_to_skip += 1
-
+    """
     # Check for abyss
     if robot.sensoric_unit.is_abyss_detected():
         print("Abyss detected")
@@ -129,7 +142,6 @@ while is_block_left:
         is_block_left = robot.move_back_to_origin(blocks_checked, sw)
         blocks_to_skip = 0
         blocks_skipped = 0
-
     wait(100)
 
 robot.driving_unit.stop_moving()

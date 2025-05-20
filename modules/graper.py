@@ -14,12 +14,16 @@ from pybricks.tools import wait
 class Graper:
     """Greifer-Klasse, die den Greifer des Roboters verwaltet."""
     class Constants:
-        DOWN_ANGLE = 0
+
+        INIT_UP_ANGLE = -32
+        INIT_OPEN_ANGLE = 720
+
+        DOWN_ANGLE = -15
         UP_ANGLE = -45
         UP_DOWN_SPEED = 50
 
         OPEN_ANGLE = 720
-        CLOSE_ANGLE = 30
+        CLOSE_ANGLE = 20  #30 vorher gewesen
         OPEN_CLOSE_SPEED = 320
 
     def __init__(self):
@@ -28,23 +32,29 @@ class Graper:
         print("Motor Up Down initialized")
         self.motor_open_close = Motor(Ports.MOTOR_GRAPPER_OPEN_CLOSE)
 
+    def init(self):
+        self.up(Graper.Constants.INIT_UP_ANGLE)
+        self.hold()
+        self.open(3*Graper.Constants.INIT_OPEN_ANGLE)
+
     def is_block_detected(self):
         return self.ultrasoncic_sensor.distance() < Sensors.OBSTACLE_DISTANCE
 
-    def move_up_down_to(self, speed=Constants.UP_DOWN_SPEED, target_angle=Constants.UP_ANGLE):
+    def move_up_down_to(self, target_angle, speed=Constants.UP_DOWN_SPEED):
         """Moves the graper to a specific angle."""
         print("move graper")
         self.motor_up_down.run_target(speed, target_angle, Stop.HOLD, True)
 
     def hold(self):
         angle = self.motor_up_down.angle()
+        print("holding graper at", angle)
         self.motor_up_down.run_target(100, angle, Stop.HOLD, False)
 
-    def open(self) -> int:
+    def open(self, target_angle=Constants.OPEN_ANGLE) -> int:
         """Opens the grapper and returns the angle of the grapper."""
-        print("open grapper")
+        print("open grapper at", target_angle)
         prev_angle = self.motor_open_close.angle()
-        self.motor_open_close.run_target(Graper.Constants.OPEN_CLOSE_SPEED, Graper.Constants.OPEN_ANGLE, Stop.HOLD, True)
+        self.motor_open_close.run_target(Graper.Constants.OPEN_CLOSE_SPEED, target_angle, Stop.HOLD, True)
         return prev_angle
 
     def close(self):
@@ -59,8 +69,8 @@ class Graper:
         """Moves the grapper back to the origin."""
         self.motor_open_close.run_target(120, 0, Stop.HOLD, True)
 
-    def up(self):
-        self.move_up_down_to(Graper.Constants.UP_DOWN_SPEED, Graper.Constants.UP_ANGLE)
+    def up(self, target_angle=Constants.UP_ANGLE):
+        self.move_up_down_to(target_angle, Graper.Constants.UP_DOWN_SPEED)
 
-    def down(self):
-        self.move_up_down_to(Graper.Constants.UP_DOWN_SPEED, Graper.Constants.DOWN_ANGLE)
+    def down(self, target_angle=Constants.DOWN_ANGLE):
+        self.move_up_down_to(target_angle, Graper.Constants.UP_DOWN_SPEED)
