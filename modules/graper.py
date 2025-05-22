@@ -13,6 +13,7 @@ from pybricks.tools import wait
 
 class Graper:
     """Greifer-Klasse, die den Greifer des Roboters verwaltet."""
+
     class Constants:
 
         INIT_UP_ANGLE = -32
@@ -23,7 +24,7 @@ class Graper:
         UP_DOWN_SPEED = 50
 
         OPEN_ANGLE = 720
-        CLOSE_ANGLE = 20  #30 vorher gewesen
+        CLOSE_ANGLE = 20  # 30 vorher gewesen
         OPEN_CLOSE_SPEED = 320
 
     def __init__(self):
@@ -35,10 +36,7 @@ class Graper:
     def init(self):
         self.up(Graper.Constants.INIT_UP_ANGLE)
         self.hold()
-        self.open(3*Graper.Constants.INIT_OPEN_ANGLE)
-
-    def is_block_detected(self):
-        return self.ultrasoncic_sensor.distance() < Sensors.OBSTACLE_DISTANCE
+        self.open(3 * Graper.Constants.INIT_OPEN_ANGLE)
 
     def move_up_down_to(self, target_angle, speed=Constants.UP_DOWN_SPEED):
         """Moves the graper to a specific angle."""
@@ -54,12 +52,19 @@ class Graper:
         """Opens the grapper and returns the angle of the grapper."""
         print("open grapper at", target_angle)
         prev_angle = self.motor_open_close.angle()
-        self.motor_open_close.run_target(Graper.Constants.OPEN_CLOSE_SPEED, target_angle, Stop.HOLD, True)
+        self.motor_open_close.run_target(
+            Graper.Constants.OPEN_CLOSE_SPEED, target_angle, Stop.HOLD, True
+        )
         return prev_angle
 
     def close(self):
         """Closes the grapper."""
-        self.motor_open_close.run_target(Graper.Constants.OPEN_CLOSE_SPEED, Graper.Constants.CLOSE_ANGLE, Stop.HOLD, True)
+        self.motor_open_close.run_target(
+            Graper.Constants.OPEN_CLOSE_SPEED,
+            Graper.Constants.CLOSE_ANGLE,
+            Stop.HOLD,
+            True,
+        )
 
     def back_to_origin(self):
         """Moves the grapper back to the origin."""

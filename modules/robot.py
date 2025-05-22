@@ -14,6 +14,7 @@ from constants.constants import Ports, Movement, EV3Speaker
 from pybricks.tools import wait, StopWatch
 from pybricks.parameters import Stop
 
+
 class Robot:
     """
     Robot class to control the LEGO EV3 robot.
@@ -27,7 +28,9 @@ class Robot:
         self.sensoric_unit = SensoricUnit()
 
         self.ev3.speaker.set_volume(EV3Speaker.VOLUME)
-        self.ev3.speaker.set_speech_options(language="en", voice="m3", speed=180, pitch=50)
+        self.ev3.speaker.set_speech_options(
+            language="en", voice="m3", speed=180, pitch=50
+        )
 
     def move_color_sensor_to_block(self):
         self.driving_unit.start_moving(Movement.BLOCK_CLOSE_UP_SPEED)
@@ -54,12 +57,21 @@ class Robot:
         sw.reset()
         return is_block_left
 
-    def scan_color(self, colors: list[tuple[int, int, int]]) -> tuple[int, int, int] | None:
+    def scan_color(
+        self, colors: list[tuple[int, int, int]]
+    ) -> tuple[int, int, int] | None:
         detected_color = self.sensoric_unit.get_color()
         print("Detected color:", detected_color)
-        return SensoricUnit.closest_color(detected_color, colors, 50)
+        return self.sensoric_unit.closest_color(detected_color, colors, 50)
 
-    def process_detected_block(self, sw: StopWatch, current_color: tuple[int, int, int], colors: list[tuple[int, int, int]], blocks_checked: int, sw_color = None) -> int:
+    def process_detected_block(
+        self,
+        sw: StopWatch,
+        current_color: tuple[int, int, int] | None,
+        colors: list[tuple[int, int, int]],
+        blocks_checked: int,
+        sw_color=None,
+    ) -> tuple[int, int, int]:
         """
         Handles the process when a block is detected:
         - Pauses the stopwatch
@@ -76,23 +88,22 @@ class Robot:
 
         detected_color = self.sensoric_unit.get_color()
         print("Detected color: ", detected_color)
-        closest_color = SensoricUnit.closest_color(detected_color, colors, 50)
+        closest_color = self.sensoric_unit.closest_color(detected_color, colors, 50)
         print("Closest color: ", closest_color)
 
         if current_color is None:
             print("checked that first block is")
             self.handle_color_action(closest_color, blocks_checked)
             return closest_color
-            
+
         if current_color is not None:
             print("checked that not first block is")
             if closest_color == current_color:
                 print("checked for same block")
                 self.handle_color_action(closest_color, blocks_checked)
-                return current_color
+                return current_color  # type: ignore
 
-        return detected_color
-    
+        return detected_color  # type: ignore
 
     def lift_stone(self):
         self.graper.down()
