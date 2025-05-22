@@ -72,7 +72,7 @@ class Graper:
 
     def bbl(self):
         """Moves the grapper back to the origin."""
-        self.motor_open_close.run_target(120, 0, Stop.HOLD, True)
+        self.motor_open_close.run_time(-320, 1000, Stop.HOLD, True)
 
     def up(self, target_angle=Constants.UP_ANGLE):
         self.move_up_down_to(target_angle, Graper.Constants.UP_DOWN_SPEED)

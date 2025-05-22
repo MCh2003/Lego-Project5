@@ -26,12 +26,12 @@ class Movement:
     AXLE_TRACK = 104  # Abstand zwischen den Rädern in mm
     MOTOR_FRONT = Ports.MOTOR_DRIVE_FRONT
     MOTOR_BACK = Ports.MOTOR_DRIVE_BACK
-    DRIVE_SPEED = 150  # Geschwindigkeit in mm/s
+    DRIVE_SPEED = 100  # Geschwindigkeit in mm/s
     BLOCK_CLOSE_UP_SPEED = 150  # leave this at 50 mm/s
     CLOSE_UP_TIME = 650  # if BLOCK_CLOSE_UP_SPEED is changed, change this too (50 mm/s = 3500 ms)
     TURN_SPEED = 10
-    TURN_COUNTER_CLOCKWISE = -180
-    TURN_CLOCKWISE = 180
+    TURN_COUNTER_CLOCKWISE = -185
+    TURN_CLOCKWISE = 185
     TURN_DEGREE = 180
 
 

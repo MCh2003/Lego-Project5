@@ -108,13 +108,12 @@ class Robot:
     def lift_stone(self):
         self.graper.down()
         print("downed")
-        wait(500)
+        wait(100)
         self.graper.close()
         print("closed")
-        wait(5000)
+        wait(100)
         self.graper.up()
         print("upped")
-        wait(5000)
         self.graper.hold()
 
         self.ev3.speaker.say("OOOOF")
