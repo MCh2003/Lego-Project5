@@ -98,9 +98,10 @@ def quality_test_lift_block(robot: Robot) -> bool:
 
 def turn_and_turn_back_test(robot: Robot) -> bool:
     """Turn the robot and turn back to the original position."""
-    robot.driving_unit.turn_clockwise()
-    wait(1000)
     robot.driving_unit.turn_counter_clockwise()
+    wait(1000)
+    
+    robot.driving_unit.turn_clockwise()
     robot.driving_unit.start_moving()
     wait(1000)
     robot.driving_unit.stop_moving()

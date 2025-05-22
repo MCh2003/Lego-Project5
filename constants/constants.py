@@ -30,8 +30,8 @@ class Movement:
     BLOCK_CLOSE_UP_SPEED = 150  # leave this at 50 mm/s
     CLOSE_UP_TIME = 650  # if BLOCK_CLOSE_UP_SPEED is changed, change this too (50 mm/s = 3500 ms)
     TURN_SPEED = 10
-    TURN_COUNTER_CLOCKWISE = -185
-    TURN_CLOCKWISE = 185
+    TURN_COUNTER_CLOCKWISE = -190
+    TURN_CLOCKWISE = 190
     TURN_DEGREE = 180
 
 
