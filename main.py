@@ -46,13 +46,14 @@ def calibrate_colors(robot: Robot) -> list[tuple[int, int, int]]:
 def block_detect_test(robot: Robot) -> bool:
     """Test if a block is detected."""
     i = 0
-    while (i < 5):
+    while (i < 1):
         robot.driving_unit.start_moving()
         if robot.sensoric_unit.is_block_detected():
             robot.driving_unit.stop_moving()
             robot.ev3.speaker.say("Block detected")
             robot.ev3.speaker.beep()
-            wait(1000)
+            robot.driving_unit.start_moving()
+            wait(500)
             i += 1
 
     wait(50)
@@ -100,8 +101,8 @@ def turn_and_turn_back_test(robot: Robot) -> bool:
     """Turn the robot and turn back to the original position."""
     robot.driving_unit.turn_counter_clockwise()
     wait(1000)
-    
-    robot.driving_unit.turn_clockwise()
+
+    # robot.driving_unit.turn_clockwise()
     robot.driving_unit.start_moving()
     wait(1000)
     robot.driving_unit.stop_moving()
@@ -142,13 +143,16 @@ robot.ev3.speaker.beep()
 # robot.graper.init()
 # robot.driving_unit.turn_degrees(180)
 
+
 # region colortest
 # colors = calibrate_colors(robot)
-robot.ev3.speaker.beep()
+# robot.ev3.speaker.beep()
 # endregion
 
 # region block_detect_test
-# block_detect_test(robot)
+robot.graper.up()
+robot.graper.hold()
+block_detect_test(robot)
 # endregion block_detect_test(robot)
 
 # region quality_test_abyss
@@ -159,10 +163,9 @@ robot.ev3.speaker.beep()
 # quality_test_lift_block(robot)
 # endregion quality_test_lift_block(robot)
 
-robot.graper.up()
-robot.graper.hold()
+
 # region turn_and_turn_back_test
-turn_and_turn_back_test(robot)
+# turn_and_turn_back_test(robot)
 # endregion turn_and_turn_back_test(robot)
 
 # region abyss_drive_back_test
