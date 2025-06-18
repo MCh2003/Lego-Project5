@@ -45,12 +45,16 @@ robot.ev3.speaker.beep()
 
 sw = StopWatch()
 sw_color = StopWatch()
-is_block_left = len(colors) > 0
+
+is_block_left = True
 blocks_checked = 0
 blocks_to_skip = 0
 blocks_skipped = 0
+
 current_color = None
 closest_color = None
+
+drop_arm_angle = -5
 
 # needed to check if sensors are on the wrong side
 first_try = True
@@ -105,7 +109,9 @@ while is_block_left:
                 robot.driving_unit.turn_clockwise()
 
                 # ToDo: stacking blocks logic
-                robot.drop_stone_arm_open_up_hold()
+
+                robot.drop_stone_arm_open_up_hold(drop_arm_angle=drop_arm_angle)
+                drop_arm_angle -= 5
 
                 robot.driving_unit.turn_counter_clockwise()
             else:
@@ -123,6 +129,7 @@ while is_block_left:
         is_block_left = robot.move_back_to_origin(blocks_checked, sw)
         blocks_to_skip = 0
         blocks_skipped = 0
+        drop_arm_angle = 5
         if first_try:
             robot.driving_unit.turn_clockwise()
             first_try = False

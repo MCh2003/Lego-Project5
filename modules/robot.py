@@ -95,9 +95,9 @@ class Robot:
             self.ev3.speaker.say("OOOOOOOF")
             return
 
-    def drop_stone_arm_open_up_hold(self):
+    def drop_stone_arm_open_up_hold(self, drop_arm_angle: int = 5):
         """Lifts the stone and idles the graper (up-down: up, open-close:open)."""
-        self.graper.down()
+        self.graper.move_up_down_to(drop_arm_angle)
         self.graper.open()
         self.graper.up()
         self.graper.hold()
