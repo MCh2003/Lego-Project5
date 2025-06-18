@@ -18,10 +18,27 @@ from modules.robot import Robot
 from modules.sensoric_unit import SensoricUnit
 
 
+def optional_close_grapper(robot: Robot):
+    resetting = False
+    for _ in range(100):
+        if Button.CENTER not in robot.ev3.buttons.pressed():
+            resetting = True
+            break
+        wait(50)
+
+    while resetting and Button.UP not in robot.ev3.buttons.pressed():
+        robot.graper.close_by_angle()
+        wait(50)
+    robot.graper.motor_open_close.reset_angle(0)
+
+
 robot = Robot()
 robot.ev3.speaker.beep()
 
+robot.graper.up()
 robot.graper.hold()
+optional_close_grapper(robot)
+
 colors = [Colors.RED, Colors.BLUE, Colors.WHITE]
 
 robot.ev3.speaker.beep()
@@ -47,28 +64,25 @@ while is_block_left:
 
         if current_color is None:
             print("First block")
-            current_color = robot.process_detected_block(
-                sw, colors
-            )
+            current_color = robot.process_detected_block(sw, colors)
             sw_color.resume()
             blocks_checked += 1
 
         if current_color is not None:
             print("current_color is not none")
-            detected_color = robot.process_detected_block(
-                sw, colors
-            )
+            detected_color = robot.process_detected_block(sw, colors)
             if detected_color == current_color:
                 blocks_checked += 1
             sw_color.resume()
 
-        if blocks_skipped < blocks_to_skip:
+        if blocks_skipped < blocks_to_skip or (current_color is None):
             blocks_skipped += 1
             sw.pause()
             continue
 
         if closest_color == current_color:
             print("Lifting block")
+            robot.lift_stone(current_color, colors)
 
             # Check if block is still there
             closest_color = robot.scan_color(colors)

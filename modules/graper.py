@@ -50,11 +50,11 @@ class Graper:
 
     def back_to_origin(self):
         """Moves the grapper back to the origin."""
-        self.motor_open_close.run_angle(120, -30, Stop.HOLD, True)
+        self.motor_open_close.run_target(120, -30, Stop.HOLD, True)
 
-    def bbl(self):
+    def close_by_angle(self):
         """Moves the grapper back to the origin."""
-        self.motor_open_close.run_target(120, 0, Stop.HOLD, True)
+        self.motor_open_close.run_angle(240, 60, Stop.HOLD, True)
 
     def up(self):
         self.move_up_down_to(Graper.Constants.UP_DOWN_SPEED, Graper.Constants.UP_ANGLE)

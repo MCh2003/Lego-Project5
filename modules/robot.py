@@ -83,6 +83,7 @@ class Robot:
     def lift_stone(
         self, color: tuple[int, int, int], colors: list[tuple[int, int, int]]
     ):
+        self.graper.down()
         self.graper.close()
         self.graper.up()
         self.graper.hold()
