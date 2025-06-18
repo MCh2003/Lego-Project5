@@ -82,16 +82,15 @@ while is_block_left:
                 wait(1000)
                 robot.graper.up()
                 robot.graper.hold()
-                robot.graper.bbl()
-                exit(0)
-                # robot.move_back_to_origin(blocks_checked, sw)
 
-                # robot.driving_unit.turn_clockwise()
+                robot.move_back_to_origin(blocks_checked, sw)
 
-                # # ToDo: stacking blocks logic
-                # robot.drop_stone_arm_open_up_hold()
+                robot.driving_unit.turn_clockwise()
 
-                # robot.driving_unit.turn_counter_clockwise()
+                # ToDo: stacking blocks logic
+                robot.drop_stone_arm_open_up_hold()
+
+                robot.driving_unit.turn_counter_clockwise()
             else:
                 print("Block dropped")
         else:
@@ -99,10 +98,6 @@ while is_block_left:
             robot.graper.up()
             robot.graper.hold()
             blocks_to_skip += 1
-
-        # graper is down and open
-        ## closest_color = robot.process_detected_block(sw, colors)
-        blocks_checked = robot.process_detected_block(sw, colors)
 
     # Check for abyss
     if robot.sensoric_unit.is_abyss_detected():
