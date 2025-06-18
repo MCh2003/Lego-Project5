@@ -52,6 +52,9 @@ blocks_skipped = 0
 current_color = None
 closest_color = None
 
+# needed to check if sensors are on the wrong side
+first_try = True
+
 robot.ev3.speaker.say("Starting")
 # block_detected = True
 while is_block_left:
@@ -120,6 +123,9 @@ while is_block_left:
         is_block_left = robot.move_back_to_origin(blocks_checked, sw)
         blocks_to_skip = 0
         blocks_skipped = 0
+        if first_try:
+            robot.driving_unit.turn_clockwise()
+            first_try = False
     wait(100)
 
 robot.driving_unit.stop_moving()
