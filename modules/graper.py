@@ -28,9 +28,6 @@ class Graper:
         print("Motor Up Down initialized")
         self.motor_open_close = Motor(Ports.MOTOR_GRAPPER_OPEN_CLOSE)
 
-    def is_block_detected(self):
-        return self.ultrasoncic_sensor.distance() < Sensors.OBSTACLE_DISTANCE
-
     def move_up_down_to(self, speed=Constants.UP_DOWN_SPEED, target_angle=Constants.UP_ANGLE):
         """Moves the graper to a specific angle."""
         print("move graper")
