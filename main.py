@@ -126,13 +126,14 @@ while is_block_left:
     if robot.sensoric_unit.is_abyss_detected():
         print("Abyss detected")
         current_color = None
+        if first_try and blocks_checked == 0:
+            robot.driving_unit.turn_clockwise()
+            first_try = False
         is_block_left = robot.move_back_to_origin(blocks_checked, sw)
         blocks_to_skip = 0
         blocks_skipped = 0
+        blocks_checked = 0
         drop_arm_angle = 5
-        if first_try:
-            robot.driving_unit.turn_clockwise()
-            first_try = False
     wait(100)
 
 robot.driving_unit.stop_moving()
