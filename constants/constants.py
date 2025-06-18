@@ -28,7 +28,9 @@ class Movement:
     MOTOR_BACK = Ports.MOTOR_DRIVE_BACK
     DRIVE_SPEED = 100  # Geschwindigkeit in mm/s
     BLOCK_CLOSE_UP_SPEED = 150  # leave this at 50 mm/s
-    CLOSE_UP_TIME = 650  # if BLOCK_CLOSE_UP_SPEED is changed, change this too (50 mm/s = 3500 ms)
+    CLOSE_UP_TIME = (
+        650  # if BLOCK_CLOSE_UP_SPEED is changed, change this too (50 mm/s = 3500 ms)
+    )
     TURN_SPEED = 10
     TURN_COUNTER_CLOCKWISE = -190
     TURN_CLOCKWISE = 190
@@ -49,7 +51,7 @@ class EV3Speaker:
     BEEP_DURATION = 1000  # Duration in ms
 
 
-# ToDo: class Colors?
+# ToDo: change these values
 class Colors:
     """RGB values for colors"""
 
