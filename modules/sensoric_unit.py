@@ -23,7 +23,7 @@ class SensoricUnit:
         print("Distance: ", distance)
         return distance < Sensors.OBSTACLE_DISTANCE
 
-    def closest_color(detected_rgb: tuple[int, int, int] = (0, 0, 0), colors=[], tolerance=50) -> tuple[int, int, int]:
+    def closest_color(self, detected_rgb: tuple[int, int, int] = (0, 0, 0), colors=[], tolerance=300) -> tuple[int, int, int] | None:
         min_distance = float("inf")
         best_match = None
 
