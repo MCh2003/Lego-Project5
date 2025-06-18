@@ -15,15 +15,16 @@ class Graper:
     """Greifer-Klasse, die den Greifer des Roboters verwaltet."""
     class Constants:
 
-        INIT_UP_ANGLE = -32
+        INIT_UP_ANGLE = -14
         INIT_OPEN_ANGLE = 720
 
-        DOWN_ANGLE = -15
-        UP_ANGLE = -45
-        UP_DOWN_SPEED = 50
+        PLACE_ANGLE = 0
+        DOWN_ANGLE = 15
+        UP_ANGLE = -35
+        UP_DOWN_SPEED = 60
 
         OPEN_ANGLE = 720
-        CLOSE_ANGLE = 20  #30 vorher gewesen
+        CLOSE_ANGLE = 30  #30 vorher gewesen
         OPEN_CLOSE_SPEED = 320
 
     def __init__(self):
@@ -61,9 +62,9 @@ class Graper:
         """Closes the grapper."""
         self.motor_open_close.run_target(Graper.Constants.OPEN_CLOSE_SPEED, Graper.Constants.CLOSE_ANGLE, Stop.HOLD, True)
 
-    def back_to_origin(self):
+    def back_to_origin(self, degrees=120):
         """Moves the grapper back to the origin."""
-        self.motor_open_close.run_angle(120, -30, Stop.HOLD, True)
+        self.motor_open_close.run_angle(120, degrees, Stop.HOLD, True)
 
     def bbl(self):
         """Moves the grapper back to the origin."""

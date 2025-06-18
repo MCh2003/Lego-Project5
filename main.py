@@ -69,6 +69,7 @@ while is_block_left:
     sw.resume()
 
     # Check for block -> color
+    
     if robot.sensoric_unit.is_block_detected():
         print("Block detected")
 
@@ -85,7 +86,7 @@ while is_block_left:
                 blocks_checked += 1
             sw_color.resume()
 
-        """
+    """
         if blocks_skipped < blocks_to_skip:
             blocks_skipped += 1
             sw.pause()
@@ -93,7 +94,7 @@ while is_block_left:
             continue
 
 
-
+    
         if closest_color == current_color:
             print("Lifting block")
             
@@ -129,7 +130,7 @@ while is_block_left:
             blocks_to_skip += 1
 
 
-
+        
 
         # graper is down and open
         ## closest_color = robot.process_detected_block(sw, colors)
@@ -139,9 +140,10 @@ while is_block_left:
     if robot.sensoric_unit.is_abyss_detected():
         print("Abyss detected")
         current_color = None
-        is_block_left = robot.move_back_to_origin(blocks_checked, sw)
+        is_block_left = robot.move_back_to_origin(blocks_checked, sw, sw_color)
         blocks_to_skip = 0
         blocks_skipped = 0
+        blocks_checked = 0
     wait(100)
 
 robot.driving_unit.stop_moving()

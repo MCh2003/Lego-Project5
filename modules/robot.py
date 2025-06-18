@@ -34,12 +34,15 @@ class Robot:
         wait(Movement.CLOSE_UP_TIME)
         self.driving_unit.stop_moving()
 
-    def move_back_to_origin(self, blocks_checked: int, sw: StopWatch) -> bool:
+    def move_back_to_origin(self, blocks_checked: int, sw: StopWatch, sw_color: StopWatch) -> bool:
         is_block_left = False
+
+        """
         for _ in range(blocks_checked):
             self.driving_unit.start_moving_back(Movement.BLOCK_CLOSE_UP_SPEED)
             wait(Movement.CLOSE_UP_TIME)
         blocks_checked = 0
+        """
 
         self.driving_unit.start_moving_back()
         time_left = sw.time()
@@ -51,7 +54,9 @@ class Robot:
             wait(50)
 
         sw.pause()
+        sw_color.pause()
         sw.reset()
+        sw_color.reset()
         return is_block_left
 
     def scan_color(self, colors: list[tuple[int, int, int]]) -> tuple[int, int, int] | None:
@@ -71,7 +76,7 @@ class Robot:
         self.move_color_sensor_to_block()
         sw.pause()
         if sw_color is not None:
-            sw_color.pause
+            sw_color.pause()
         wait(1000)
 
         detected_color = self.sensoric_unit.get_color()
@@ -90,20 +95,22 @@ class Robot:
                 print("checked for same block")
                 self.handle_color_action(closest_color, blocks_checked)
                 return current_color
+            else:
+                print("not the same block color")
 
         return detected_color
     
 
     def lift_stone(self):
-        self.graper.down()
+        #self.graper.down(Graper.Constants.DOWN_ANGLE)
         print("downed")
         wait(500)
         self.graper.close()
         print("closed")
-        wait(5000)
+        wait(500)
         self.graper.up()
         print("upped")
-        wait(5000)
+        wait(500)
         self.graper.hold()
 
         self.ev3.speaker.say("OOOOF")
@@ -121,26 +128,30 @@ class Robot:
         """
         Places a block on the ground precisely and moves slightly backwards.
         """
+        self.ev3.speaker.say("placing block")
         print("Placing block...")
-        self.graper.down()
+        self.graper.down(Graper.Constants.PLACE_ANGLE)
         wait(300)
         self.graper.open()
         wait(300)
-        self.graper.up()
-        self.driving_unit.start_moving_back(speed=30)
-        wait(1000)
-        self.driving_unit.stop_moving()
+        self.graper.back_to_origin(Graper.Constants.UP_ANGLE*(1 - (blocks_checked/4)))
+        wait(300)
+        self.graper.up(Graper.Constants.UP_ANGLE)
+        wait(300)
+        self.graper.hold()
 
     def rotate_to_placing_pose(self):
         """
         Rotates to block place position
         """
+        self.ev3.speaker.say("rotating")
         self.driving_unit.turn_degrees(Movement.TURN_DEGREE)
 
     def reset_rotation(self):
         """
         Rotates to block place position
         """
+        self.ev3.speaker.say("reset rotation")
         self.driving_unit.turn_degrees(-Movement.TURN_DEGREE)
 
     def reset_to_driving_pose(self):
@@ -148,10 +159,10 @@ class Robot:
         Returns the robot to a driving-ready state after placing a block.
         """
         print("Resetting to driving pose...")
-        self.graper.hold()
-        self.driving_unit.start_moving(speed=40)
+        #self.graper.hold()
+        #self.driving_unit.start_moving(speed=40)
         wait(1000)
-        self.driving_unit.stop_moving()
+        #self.driving_unit.stop_moving()
 
     def handle_color_action(self, color: tuple[int, int, int], blocks_checked: int):
         """
@@ -160,7 +171,7 @@ class Robot:
         print("Handling color action for color:", color)
         self.lift_stone()
         self.rotate_to_placing_pose()
-        if blocks_checked == 0:
-            self.place_block_at_position(blocks_checked)
+        self.place_block_at_position(blocks_checked)
         self.reset_rotation()
+        self.graper.open(Graper.Constants.UP_ANGLE)
         self.reset_to_driving_pose()
