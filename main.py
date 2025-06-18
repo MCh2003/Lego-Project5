@@ -21,7 +21,7 @@ from modules.sensoric_unit import SensoricUnit
 def optional_close_grapper(robot: Robot):
     resetting = False
     for _ in range(20):
-        if Button.CENTER not in robot.ev3.buttons.pressed():
+        if Button.CENTER in robot.ev3.buttons.pressed():
             resetting = True
             break
         wait(50)

@@ -55,6 +55,6 @@ class EV3Speaker:
 class Colors:
     """RGB values for colors"""
 
-    RED = (255, 0, 0)
-    BLUE = (0, 0, 255)
-    WHITE = (255, 255, 255)
+    RED = (15, 0, 0)
+    BLUE = (0, 0, 15)
+    WHITE = (15, 15, 15)

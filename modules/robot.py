@@ -65,7 +65,7 @@ class Robot:
     ) -> tuple[int, int, int] | None:
         detected_color = self.sensoric_unit.get_color()
         print("Detected color: ", detected_color)
-        return self.sensoric_unit.closest_color(detected_color, colors, 50)
+        return self.sensoric_unit.closest_color(detected_color, colors, 300)
 
     def process_detected_block(
         self, sw: StopWatch, colors: list[tuple[int, int, int]]

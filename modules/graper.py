@@ -15,11 +15,11 @@ class Graper:
     """Greifer-Klasse, die den Greifer des Roboters verwaltet."""
     class Constants:
         DOWN_ANGLE = 0
-        UP_ANGLE = -45
+        UP_ANGLE = -12
         UP_DOWN_SPEED = 50
 
-        OPEN_ANGLE = 720
-        CLOSE_ANGLE = 30
+        OPEN_ANGLE = 1440
+        CLOSE_ANGLE = 0
         OPEN_CLOSE_SPEED = 320
 
     def __init__(self):
