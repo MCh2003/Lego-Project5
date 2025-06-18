@@ -40,7 +40,7 @@ class DrivingUnit:
         return result
 
     def turn_degrees(self, degrees=0):
-        self.drive_base.turn(180, Stop.HOLD, True)
+        self.drive_base.turn(degrees, Stop.HOLD, True)
 
     def turn_clockwise(self):
         self.turn_degrees(Movement.TURN_CLOCKWISE)

@@ -20,7 +20,7 @@ from modules.sensoric_unit import SensoricUnit
 
 def optional_close_grapper(robot: Robot):
     resetting = False
-    for _ in range(100):
+    for _ in range(20):
         if Button.CENTER not in robot.ev3.buttons.pressed():
             resetting = True
             break
@@ -38,6 +38,8 @@ robot.ev3.speaker.beep()
 robot.graper.up()
 robot.graper.hold()
 optional_close_grapper(robot)
+print("opening grapper")
+robot.graper.open()
 
 colors = [Colors.RED, Colors.BLUE, Colors.WHITE]
 
